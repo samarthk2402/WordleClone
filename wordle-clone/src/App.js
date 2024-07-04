@@ -40,10 +40,12 @@ function App() {
       const updatedGuessNum = guessNum + 1;
       setGuessNum(updatedGuessNum);
     } else {
-      if (!won) {
+      if (!won && guessNum === 5) {
         setTimeout(() => {
           window.alert("Unlucky! The word was " + word);
-        }, 100);
+        }, 1000);
+        const updatedGuessNum = guessNum + 1;
+        setGuessNum(updatedGuessNum);
       }
     }
   };

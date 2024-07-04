@@ -7,11 +7,16 @@ h1{
   color: white;
 }
 
-.wordle-grid{
-  margin: auto auto;
+.wordle-grid {
+  display: flex; /* Enables flexbox on this container */
+  flex-direction: column; /* Aligns children vertically */
+  justify-content: center; /* Centers children vertically */
+  align-items: center; /* Centers children horizontally */
+  height: 50vh; /* Ensure the container takes the full height of the viewport */
+  margin: auto; /* Center the container itself */
   width: 20%;
   text-align: center;
-}
+} 
 
 
 .guess{
@@ -23,13 +28,18 @@ h1{
 }
 
 .character{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 1s linear;
   background-color: rgb(64, 64, 64);
   border: solid white 5px;
+  border-radius: 10px;
   width:50px;
   height: 50px;
   text-align: center;
   color: white;
-  font-size: 25px;
+  font-size: 30px;
 }
 
 .character.correct{
@@ -46,5 +56,26 @@ h1{
 
 .submitContainer{
   text-align: center;
-  margin: 10px;
+  margin: auto ;
+}
+
+.submit {
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 18px;
+  color: white;
+  background-color: rgb(64, 64, 64);
+  border: solid white 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit:hover {
+  background-color: black;
+}
+
+.submit:active {
+  transform: scale(0.95);
 }

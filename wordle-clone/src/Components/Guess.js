@@ -54,11 +54,11 @@ function Guess({ word, guess, submitted, onWin }) {
         // console.log(charTypes);
       }
 
-      if (entry.join("").toString() === word) {
+      if (entry.join("").toString().toUpperCase() === word.toUpperCase()) {
         onWin();
         setTimeout(() => {
           window.alert("Great! you won!");
-        }, 100);
+        }, 1000);
       }
       // console.log(charTypes);
     }
