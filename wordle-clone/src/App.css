@@ -1,0 +1,50 @@
+body {
+  background-color: rgb(64, 64, 64);
+}
+
+h1{
+  text-align: center;
+  color: white;
+}
+
+.wordle-grid{
+  margin: auto auto;
+  width: 20%;
+  text-align: center;
+}
+
+
+.guess{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Creates 5 columns */
+  grid-gap: 5px;
+  margin-bottom: 10px; /* Adds space between grid items */
+
+}
+
+.character{
+  background-color: rgb(64, 64, 64);
+  border: solid white 5px;
+  width:50px;
+  height: 50px;
+  text-align: center;
+  color: white;
+  font-size: 25px;
+}
+
+.character.correct{
+  background-color: rgb(7, 103, 39);
+}
+
+.character.present{
+  background-color: rgb(179, 184, 42);
+}
+
+.character.wrong{
+  background-color: rgb(25, 25, 25);
+}
+
+.submitContainer{
+  text-align: center;
+  margin: 10px;
+}
