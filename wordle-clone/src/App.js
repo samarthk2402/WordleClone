@@ -4,7 +4,50 @@ import { useState, useEffect, useCallback } from "react";
 import Submit from "./Components/Submit";
 
 function App() {
-  const word = "hello";
+  const [word, setWord] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const url =
+    "https://random-word-by-api-ninjas.p.rapidapi.com/v1/randomword?type=verb";
+
+  useEffect(() => {
+    const maxAttempts = 10;
+    let attempts = 0;
+
+    setLoading(true);
+
+    const fetchWord = async (attempts) => {
+      if (attempts >= maxAttempts) {
+        console.log("attempts execeed 10!");
+        return;
+      }
+
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "x-rapidapi-key":
+              "59f99a53b4msh38753797affb843p116dc4jsn317d1aebcd78",
+            "x-rapidapi-host": "random-word-by-api-ninjas.p.rapidapi.com",
+          },
+        });
+        const result = await response.json();
+        console.log(result.word[0]);
+        let requestedWord = result.word[0];
+        if (requestedWord && requestedWord.length === 5) {
+          setWord(result.word[0]);
+          setLoading(false);
+          console.log("five letter word found!");
+        } else {
+          fetchWord(attempts + 1);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchWord(attempts);
+  }, [url]);
 
   const [won, setWon] = useState(false);
 
@@ -97,15 +140,19 @@ function App() {
     <>
       <h1>Wordle</h1>
       <div className="wordle-grid">
-        {guesses.map((guess, index) => (
-          <Guess
-            key={guess.id}
-            word={word}
-            guess={guess.value}
-            submitted={submits[index].value}
-            onWin={onWin}
-          />
-        ))}
+        {!loading ? (
+          guesses.map((guess, index) => (
+            <Guess
+              key={guess.id}
+              word={word}
+              guess={guess.value}
+              submitted={submits[index].value}
+              onWin={onWin}
+            />
+          ))
+        ) : (
+          <p>Loading...</p>
+        )}
       </div>
       <Submit onSubmit={onSubmit} />
     </>

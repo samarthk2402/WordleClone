@@ -7,6 +7,10 @@ h1{
   color: white;
 }
 
+p{
+  color: white;
+}
+
 .wordle-grid {
   display: flex; /* Enables flexbox on this container */
   flex-direction: column; /* Aligns children vertically */
