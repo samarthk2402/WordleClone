@@ -35,7 +35,6 @@ p{
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 1s linear;
   background-color: rgb(64, 64, 64);
   border: solid white 5px;
   border-radius: 10px;
@@ -44,6 +43,13 @@ p{
   text-align: center;
   color: white;
   font-size: 30px;
+  transition: transform 1s ease-in-out, background-color 1s;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.character.flip{
+  animation: flip 2s ease forwards;
 }
 
 .character.correct{
@@ -56,6 +62,21 @@ p{
 
 .character.wrong{
   background-color: rgb(25, 25, 25);
+}
+
+/* Flip animation */
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+    background-color: transparent; 
+  }
+  100% {
+    transform: rotateY(360deg);
+    /* background-color: inherit; Ensure background color is applied */
+  }
 }
 
 .submitContainer{

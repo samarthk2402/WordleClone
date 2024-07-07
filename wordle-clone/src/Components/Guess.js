@@ -49,6 +49,7 @@ function Guess({ word, guess, submitted, onWin }) {
             updateCharTypes(index, "present");
           }
         } else {
+          //updateCharTypes(index, "flip");
           updateCharTypes(index, "wrong");
         }
         // console.log(charTypes);
