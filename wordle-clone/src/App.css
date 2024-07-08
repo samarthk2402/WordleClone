@@ -45,11 +45,11 @@ p{
   font-size: 30px;
   transition: transform 1s ease-in-out, background-color 1s;
   transform-style: preserve-3d;
-  backface-visibility: hidden;
+  /* backface-visibility: hidden; */
 }
 
 .character.flip{
-  animation: flip 2s ease forwards;
+  animation: flip 0.75s ease forwards;
 }
 
 .character.correct{
@@ -64,18 +64,43 @@ p{
   background-color: rgb(25, 25, 25);
 }
 
+.character .text {
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.character.flip .text {
+  transform: rotateX(-180deg);
+}
+
+.character.pop{
+  animation: pop 0.2s ease-in-out;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 /* Flip animation */
 @keyframes flip {
   0% {
-    transform: rotateY(0deg);
+    transform: rotateX(0deg);
   }
   50% {
-    transform: rotateY(180deg);
+    transform: rotateX(90deg);
     background-color: transparent; 
   }
   100% {
-    transform: rotateY(360deg);
-    /* background-color: inherit; Ensure background color is applied */
+    transform: rotateX(180deg);
+    background-color: inherit; 
   }
 }
 

@@ -1,7 +1,15 @@
 import Character from "./Character";
 import { useState, useEffect, useCallback } from "react";
 
-function Guess({ word, guess, submitted, onWin }) {
+function Guess({
+  index,
+  guessNum,
+  word,
+  guess,
+  submitted,
+  onWin,
+  updatedCharIndex,
+}) {
   const [charTypes, setCharTypes] = useState(["", "", "", "", ""]);
 
   const [entry, setEntry] = useState([" ", " ", " ", " ", " "]);
@@ -34,25 +42,39 @@ function Guess({ word, guess, submitted, onWin }) {
       }
       return values;
     };
+    // eslint-disable-next-line
+    updateCharTypes(updatedCharIndex, "pop");
+    setTimeout(() => {
+      // eslint-disable-next-line
+      updateCharTypes(updatedCharIndex, "");
+    }, 200);
     setEntry(formatGuess());
-  }, [guess]);
+  }, [guess, updateCharTypes]); // eslint-disable-line react-hooks/exhaustive-deps
 
   //runs when submitted changes
   useEffect(() => {
+    const animateCharacters = (index, type) => {
+      updateCharTypes(index, "flip");
+      setTimeout(() => {
+        updateCharTypes(index, type);
+      }, 490);
+    };
+
     if (submitted) {
       for (let index = 0; index < entry.length; index++) {
-        // Use a regular for loop
-        if (word.includes(entry[index])) {
-          if (word[index] === entry[index]) {
-            updateCharTypes(index, "correct");
+        setTimeout(() => {
+          // Use a regular for loop
+          if (word.includes(entry[index])) {
+            if (word[index] === entry[index]) {
+              animateCharacters(index, "correct");
+            } else {
+              animateCharacters(index, "present");
+            }
           } else {
-            updateCharTypes(index, "present");
+            //updateCharTypes(index, "flip");
+            animateCharacters(index, "wrong");
           }
-        } else {
-          //updateCharTypes(index, "flip");
-          updateCharTypes(index, "wrong");
-        }
-        // console.log(charTypes);
+        }, 100 * index);
       }
 
       if (entry.join("").toString().toUpperCase() === word.toUpperCase()) {
@@ -60,8 +82,12 @@ function Guess({ word, guess, submitted, onWin }) {
         setTimeout(() => {
           window.alert("Great! you won!");
         }, 1000);
+      } else if (guessNum === 5 && guessNum === index) {
+        onWin();
+        setTimeout(() => {
+          window.alert("You lose! the word was " + word);
+        }, 1000);
       }
-      // console.log(charTypes);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitted, updateCharTypes]); // Only `submitted` in the dependency array

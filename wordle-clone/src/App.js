@@ -6,6 +6,7 @@ import Submit from "./Components/Submit";
 function App() {
   const [word, setWord] = useState("");
   const [loading, setLoading] = useState(true);
+  const [updatedCharIndex, setUpdatedCharIndex] = useState(-1);
 
   const url =
     "https://random-word-by-api-ninjas.p.rapidapi.com/v1/randomword?type=verb";
@@ -49,8 +50,6 @@ function App() {
     fetchWord(attempts);
   }, [url]);
 
-  const [won, setWon] = useState(false);
-
   const [guesses, setGuesses] = useState([
     { id: 1, value: "" },
     { id: 2, value: "" },
@@ -82,20 +81,11 @@ function App() {
     if (guessNum < 5) {
       const updatedGuessNum = guessNum + 1;
       setGuessNum(updatedGuessNum);
-    } else {
-      if (!won && guessNum === 5) {
-        setTimeout(() => {
-          window.alert("Unlucky! The word was " + word);
-        }, 1000);
-        const updatedGuessNum = guessNum + 1;
-        setGuessNum(updatedGuessNum);
-      }
     }
   };
 
   const onWin = () => {
     setGuessNum(7);
-    setWon(true);
   };
 
   const updateGuess = useCallback((input, index) => {
@@ -115,7 +105,11 @@ function App() {
           isAlphabetic(event.key)
         ) {
           updateGuess(guesses[guessNum].value + event.key, guessNum);
+          // eslint-disable-next-line
+          setUpdatedCharIndex(guesses[guessNum].value.length);
         } else if (event.key === "Backspace") {
+          // eslint-disable-next-line
+          setUpdatedCharIndex(-1);
           if (guesses[guessNum].value.length > 1) {
             let updatedGuess = guesses[guessNum].value.slice(0, -1);
 
@@ -143,11 +137,14 @@ function App() {
         {!loading ? (
           guesses.map((guess, index) => (
             <Guess
+              index={index}
+              guessNum={guessNum}
               key={guess.id}
               word={word}
               guess={guess.value}
               submitted={submits[index].value}
               onWin={onWin}
+              updatedCharIndex={updatedCharIndex}
             />
           ))
         ) : (
